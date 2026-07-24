@@ -5,11 +5,10 @@ using UnityEngine.InputSystem;
 public sealed class CerussaMovement : MonoBehaviour
 {
     [Header("References")]
-    [Tooltip("If empty, the script uses the Main Camera.")]
     [SerializeField] private Transform cameraTransform;
     [SerializeField] private bool followCamera = true;
     [SerializeField] private Vector3 cameraOffset = new Vector3(0f, 3.5f, -7f);
-    [SerializeField] private float cameraFollowSmoothTime = .12f;
+    [SerializeField] private float cameraFollowSmoothTime = .09f;
     [SerializeField] private float cameraLookHeight = 1.2f;
 
     [Header("Ground movement")]
@@ -32,6 +31,12 @@ public sealed class CerussaMovement : MonoBehaviour
     [SerializeField] private float trailLifetime = .38f;
     [SerializeField] private float dashFovKick = 5f;
 
+    [Header("Camera impact")]
+    [SerializeField, Range(0f, 8f)] private float dashCameraTilt = 1.5f;
+    [SerializeField] private float jumpFovKick = 1.5f;
+    [SerializeField] private float landingFovKick = 3f;
+    [SerializeField] private float landingMinFallSpeed = 8f;
+
     private CharacterController controller;
     private Vector3 horizontalVelocity;
     private Vector3 dodgeDirection;
@@ -43,6 +48,10 @@ public sealed class CerussaMovement : MonoBehaviour
     private TrailRenderer dashTrail;
     private Camera followCameraComponent;
     private float baseCameraFov;
+    private Vector3 cameraImpactOffset;
+    private float feedbackFovKick;
+    private float lastVerticalVelocity;
+    private bool wasGrounded;
 
     private void Awake()
     {
@@ -69,6 +78,7 @@ public sealed class CerussaMovement : MonoBehaviour
         }
 
         CreateDashTrail();
+        wasGrounded = controller.isGrounded;
     }
 
     private void Update()
@@ -90,17 +100,27 @@ public sealed class CerussaMovement : MonoBehaviour
 
         if (!followCamera || cameraTransform == null) return;
 
-        Vector3 targetPosition = transform.position + cameraOffset;
+        cameraImpactOffset = Vector3.MoveTowards(cameraImpactOffset, Vector3.zero, 7f * Time.deltaTime);
+        feedbackFovKick = Mathf.MoveTowards(feedbackFovKick, 0f, 12f * Time.deltaTime);
+
+        Vector3 targetPosition = transform.position + cameraOffset + cameraImpactOffset;
         cameraTransform.position = Vector3.SmoothDamp(
             cameraTransform.position,
             targetPosition,
             ref cameraFollowVelocity,
             cameraFollowSmoothTime);
-        cameraTransform.LookAt(transform.position + Vector3.up * cameraLookHeight);
+        Vector3 lookTarget = transform.position + Vector3.up * cameraLookHeight;
+        Vector3 lookDirection = (lookTarget - cameraTransform.position).normalized;
+        float dashTilt = dodgeTimeRemaining > 0f
+            ? Vector3.Dot(dodgeDirection, cameraTransform.right) * dashCameraTilt
+            : 0f;
+        cameraTransform.rotation = Quaternion.LookRotation(lookDirection, Vector3.up)
+            * Quaternion.Euler(0f, 0f, -dashTilt);
 
         if (followCameraComponent != null)
         {
-            float targetFov = dodgeTimeRemaining > 0f ? baseCameraFov + dashFovKick : baseCameraFov;
+            float targetFov = baseCameraFov + feedbackFovKick;
+            if (dodgeTimeRemaining > 0f) targetFov += dashFovKick;
             followCameraComponent.fieldOfView = Mathf.Lerp(
                 followCameraComponent.fieldOfView,
                 targetFov,
@@ -134,6 +154,14 @@ public sealed class CerussaMovement : MonoBehaviour
 
     private void HandleJump()
     {
+        bool grounded = controller.isGrounded;
+        if (grounded && !wasGrounded && lastVerticalVelocity < -landingMinFallSpeed)
+        {
+            feedbackFovKick = Mathf.Max(feedbackFovKick, landingFovKick);
+            cameraImpactOffset += Vector3.down * .18f;
+        }
+        wasGrounded = grounded;
+
         if (controller.isGrounded && verticalVelocity < 0f)
         {
             verticalVelocity = -2f;
@@ -148,6 +176,7 @@ public sealed class CerussaMovement : MonoBehaviour
         if (controller.isGrounded)
         {
             verticalVelocity = Mathf.Sqrt(jumpHeight * -2f * gravity);
+            feedbackFovKick = Mathf.Max(feedbackFovKick, jumpFovKick);
             return;
         }
 
@@ -156,6 +185,7 @@ public sealed class CerussaMovement : MonoBehaviour
         {
             jumpsUsed++;
             verticalVelocity = Mathf.Sqrt(jumpHeight * -2f * gravity);
+            feedbackFovKick = Mathf.Max(feedbackFovKick, jumpFovKick);
         }
     }
 
@@ -190,6 +220,7 @@ public sealed class CerussaMovement : MonoBehaviour
                 transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(desiredDirection), turnSpeed * Time.deltaTime);
         }
 
+        lastVerticalVelocity = verticalVelocity;
         verticalVelocity += gravity * Time.deltaTime;
         controller.Move((horizontalVelocity + Vector3.up * verticalVelocity) * Time.deltaTime);
     }
