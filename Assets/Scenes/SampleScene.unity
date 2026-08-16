@@ -922,6 +922,8 @@ GameObject:
   - component: {fileID: 979960246}
   - component: {fileID: 979960245}
   - component: {fileID: 979960244}
+  - component: {fileID: 979960249}
+  - component: {fileID: 979960250}
   - component: {fileID: 979960243}
   m_Layer: 0
   m_Name: Player
@@ -984,6 +986,55 @@ MonoBehaviour:
   jumpFovKick: 1.5
   landingFovKick: 3
   landingMinFallSpeed: 8
+--- !u!114 &979960249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 979960242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7aa5b818fa654564a5584804e1f6f3d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WorldAimMarker
+  aimCamera: {fileID: 330585545}
+  aimMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  maxAimDistance: 250
+--- !u!114 &979960250
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 979960242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bbcec0dd7594228b3b96c328a4764fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Gunslinger
+  aimMarker: {fileID: 979960249}
+  projectileOrigin: {fileID: 979960248}
+  equippedItem: 1
+  flamethrowerProjectile: {fileID: 11400000, guid: 9e2c4d291b5e46f09cc6e1172a155ad1, type: 3}
+  knifeProjectile: {fileID: 11400001, guid: 776f9a1dd90e45fb81092a721a089730, type: 3}
+  catapultProjectile: {fileID: 11400002, guid: c09d37549ee1440f95b880d9bd3a0d9a, type: 3}
+  flameProjectileCount: 7
+  flameArcAngle: 45
+  flameSpeed: 15
+  flameCooldown: 0.18
+  flameProjectileLifetime: 1.2
+  knifeSpeed: 28
+  knifeCooldown: 0.32
+  knifeProjectileLifetime: 3
+  catapultHorizontalSpeed: 10
+  catapultUpwardSpeed: 13
+  catapultCooldown: 0.9
+  catapultExplosionRadius: 3.5
+  catapultProjectileLifetime: 5
+  projectileDamage: 1
 --- !u!136 &979960245
 CapsuleCollider:
   m_ObjectHideFlags: 0

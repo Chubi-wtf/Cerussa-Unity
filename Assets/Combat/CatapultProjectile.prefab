@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &100002
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 400002}
+  - component: {fileID: 540002}
+  - component: {fileID: 1350002}
+  - component: {fileID: 11400002}
+  m_Layer: 0
+  m_Name: Catapult Projectile
+  m_TagString: Untagged
+  m_IsActive: 1
+--- !u!4 &400002
+Transform:
+  m_GameObject: {fileID: 100002}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+--- !u!54 &540002
+Rigidbody:
+  m_GameObject: {fileID: 100002}
+  serializedVersion: 5
+  m_Mass: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+--- !u!135 &1350002
+SphereCollider:
+  m_GameObject: {fileID: 100002}
+  m_IsTrigger: 0
+  m_Radius: 0.42
+--- !u!114 &11400002
+MonoBehaviour:
+  m_GameObject: {fileID: 100002}
+  m_Enabled: 1
+  m_Script: {fileID: 11500000, guid: 226fd340946f46df8bd5369a0e592ec7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CombatProjectile
+  projectileType: 2
