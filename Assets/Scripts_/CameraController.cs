@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Camera))]
-public sealed class CerussaCameraController : MonoBehaviour
+public sealed class CameraController : MonoBehaviour
 {
     [Header("Target")]
     [SerializeField] private Transform target;

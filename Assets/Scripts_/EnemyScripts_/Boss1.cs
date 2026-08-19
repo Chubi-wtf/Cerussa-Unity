@@ -11,7 +11,7 @@ public class Boss1 : MonoBehaviour
     public Transform firePoint;
 
     // Attack variables
-    public float timeBetweenAttacks; 
+    public float timeBetweenAttacks = 0.2f; 
     bool alreadyAttacked; 
     public float attackRange; 
     public bool playerInAttackRange; 
@@ -23,6 +23,11 @@ public class Boss1 : MonoBehaviour
 
     private void Update()
     {
+        if (!alreadyAttacked) 
+        {
+            Debug.Log("Enemy is Attacking" + gameObject.name + " at " + Time.time);
+        }
+
         playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
 
         if (playerInAttackRange)

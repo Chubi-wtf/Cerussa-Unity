@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(CharacterController))]
-public sealed class CerussaMovement : MonoBehaviour
+public sealed class Movement_ : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private Transform cameraTransform;
@@ -34,7 +34,7 @@ public sealed class CerussaMovement : MonoBehaviour
     [SerializeField] private float landingMinFallSpeed = 8f;
 
     private CharacterController controller;
-    private CerussaCameraController cameraController;
+    private CameraController cameraController;
     private Vector3 horizontalVelocity;
     private Vector3 dodgeDirection;
     private float verticalVelocity;
@@ -45,6 +45,10 @@ public sealed class CerussaMovement : MonoBehaviour
     private float lastVerticalVelocity;
     private bool wasGrounded;
 
+    //animator variables
+
+    Animator anim;
+   
     private void Awake()
     {
         controller = GetComponent<CharacterController>();
@@ -52,7 +56,7 @@ public sealed class CerussaMovement : MonoBehaviour
             cameraTransform = Camera.main.transform;
 
         if (cameraTransform != null)
-            cameraController = cameraTransform.GetComponent<CerussaCameraController>();
+            cameraController = cameraTransform.GetComponent<CameraController>();
 
         CreateDashTrail();
         wasGrounded = controller.isGrounded;
@@ -200,4 +204,6 @@ public sealed class CerussaMovement : MonoBehaviour
         if (trailShader != null)
             dashTrail.material = new Material(trailShader);
     }
+
+    //animator Manager
 }
