@@ -505,6 +505,32 @@ MonoBehaviour:
   zoomSpeed: 0.012
   minDistance: 5
   maxDistance: 24
+--- !u!1 &345509735 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8253436023062281856, guid: 8d43334bac4cddd41b720d238baf9020, type: 3}
+  m_PrefabInstance: {fileID: 1673176244}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &345509740
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 345509735}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd0185bc6b62ce74e913c622cfc06af6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Boss1
+  player: {fileID: 979960248}
+  whatIsPlayer:
+    serializedVersion: 2
+    m_Bits: 8
+  projectile: {fileID: 1660369442976742981, guid: eef9a213151c7b843973a3cb9c71e10c, type: 3}
+  firePoint: {fileID: 1099010073}
+  timeBetweenAttacks: 3
+  attackRange: 40
+  playerInAttackRange: 0
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -926,7 +952,7 @@ GameObject:
   - component: {fileID: 979960250}
   - component: {fileID: 979960243}
   m_Layer: 0
-  m_Name: Player
+  m_Name: Playerobj
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -986,55 +1012,6 @@ MonoBehaviour:
   jumpFovKick: 1.5
   landingFovKick: 3
   landingMinFallSpeed: 8
---- !u!114 &979960249
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 979960242}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7aa5b818fa654564a5584804e1f6f3d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::WorldAimMarker
-  aimCamera: {fileID: 330585545}
-  aimMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  maxAimDistance: 250
---- !u!114 &979960250
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 979960242}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4bbcec0dd7594228b3b96c328a4764fe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Gunslinger
-  aimMarker: {fileID: 979960249}
-  projectileOrigin: {fileID: 979960248}
-  equippedItem: 1
-  flamethrowerProjectile: {fileID: 11400000, guid: 9e2c4d291b5e46f09cc6e1172a155ad1, type: 3}
-  knifeProjectile: {fileID: 11400001, guid: 776f9a1dd90e45fb81092a721a089730, type: 3}
-  catapultProjectile: {fileID: 11400002, guid: c09d37549ee1440f95b880d9bd3a0d9a, type: 3}
-  flameProjectileCount: 7
-  flameArcAngle: 45
-  flameSpeed: 15
-  flameCooldown: 0.18
-  flameProjectileLifetime: 1.2
-  knifeSpeed: 28
-  knifeCooldown: 0.32
-  knifeProjectileLifetime: 3
-  catapultHorizontalSpeed: 10
-  catapultUpwardSpeed: 13
-  catapultCooldown: 0.9
-  catapultExplosionRadius: 3.5
-  catapultProjectileLifetime: 5
-  projectileDamage: 1
 --- !u!136 &979960245
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1130,6 +1107,60 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &979960249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 979960242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7aa5b818fa654564a5584804e1f6f3d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WorldAimMarker
+  aimCamera: {fileID: 330585545}
+  aimMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  maxAimDistance: 250
+--- !u!114 &979960250
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 979960242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bbcec0dd7594228b3b96c328a4764fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Gunslinger
+  aimMarker: {fileID: 979960249}
+  projectileOrigin: {fileID: 979960248}
+  equippedItem: 1
+  flamethrowerProjectile: {fileID: 11400000, guid: 9e2c4d291b5e46f09cc6e1172a155ad1, type: 3}
+  knifeProjectile: {fileID: 11400001, guid: 776f9a1dd90e45fb81092a721a089730, type: 3}
+  catapultProjectile: {fileID: 11400002, guid: c09d37549ee1440f95b880d9bd3a0d9a, type: 3}
+  flameProjectileCount: 7
+  flameArcAngle: 45
+  flameSpeed: 15
+  flameCooldown: 0.18
+  flameProjectileLifetime: 1.2
+  knifeSpeed: 28
+  knifeCooldown: 0.32
+  knifeProjectileLifetime: 3
+  catapultHorizontalSpeed: 10
+  catapultUpwardSpeed: 13
+  catapultCooldown: 0.9
+  catapultExplosionRadius: 3.5
+  catapultProjectileLifetime: 5
+  projectileDamage: 1
+--- !u!4 &1099010073 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3271154497189562000, guid: 8d43334bac4cddd41b720d238baf9020, type: 3}
+  m_PrefabInstance: {fileID: 1673176244}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1265529204
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1579,12 +1610,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8253436023062281856, guid: 8d43334bac4cddd41b720d238baf9020, type: 3}
       propertyPath: m_Name
-      value: Tronco (1)
+      value: Boss
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8253436023062281856, guid: 8d43334bac4cddd41b720d238baf9020, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 345509740}
   m_SourcePrefab: {fileID: 100100000, guid: 8d43334bac4cddd41b720d238baf9020, type: 3}
 --- !u!1 &1877560664
 GameObject:
